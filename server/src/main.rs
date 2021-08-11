@@ -1,7 +1,3 @@
-use client::App;
-use percent_encoding::percent_decode_str;
-use sauron::prelude::*;
-use std::collections::HashMap;
 use std::net::SocketAddr;
 use warp::{http::Response, Filter};
 
