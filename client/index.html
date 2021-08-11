@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="test">
+<html lang="en">
 <head>
-    <title>Performance Comparison for Sauron, Angular and React</title>
+    <title>Performance Comparison for Sauron, Vue and React</title>
     <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.css" rel="stylesheet" />
     <style type="text/css">
         * {
@@ -56,17 +56,15 @@
 
     </style>
 
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/react/0.12.1/react.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script type="text/javascript">
-        console.timeEnd("build");
 
         document.addEventListener("DOMContentLoaded", function () {
             _react();
+            _vue();
             _raw();
         });
-
-        _angular();
 
         function _buildData(count) {
             count = count || 1000;
@@ -110,23 +108,25 @@
         }
 
 
-        function _angular(data) {
-            angular.module("test", []).controller("controller", function ($scope) {
-                $scope.run = function () {
-                    var data = _buildData(),
-                        date = performance.now();
-
-                    $scope.selected = null;
-                    $scope.$$postDigest(function () {
-                        document.getElementById("run-angular").innerHTML = Math.round(performance.now() - date) + " ms";
-                    });
-
-                    $scope.data = data;
-                };
-
-                $scope.select = function (item) {
-                    $scope.selected = item.id;
-                };
+        function _vue() {
+            let data = _buildData();
+            console.log("data for vue:", data);
+            myObject = new Vue({
+                el: '#vue',
+                data: {
+                    data: data
+                },
+                methods: {
+                    run: function(event){
+                        console.log("run is clicked..");
+                        this.data = _buildData();
+                    }
+                },
+                updated: function(){
+                    this.$nextTick(function () {
+                        console.log("vue dom has been updated..");
+                      })
+                }
             });
         }
 
@@ -215,11 +215,11 @@
     </script>
 </head>
 
-<body ng-controller="controller">
+<body>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2>Performance Comparison for React, Angular and Sauron</h2>
+                <h2>Performance Comparison for React, Vue and Sauron</h2>
             </div>
         </div>
 
@@ -236,14 +236,15 @@
         <div class="col-md-3">
             <div class="row">
                 <div class="col-md-7">
-                    <h3>Angular</h3>
+                    <h3>Vue.js</h3>
                 </div>
-                <div class="col-md-5 text-right time" id="run-angular" ng-click="run()">Run</div>
+                <div class="col-md-5 text-right time" id="run-vue" v-on:click="run">Run</div>
             </div>
             <div>
-                <div class="row" ng-repeat="item in data">
-                    <div class="col-md-12 test-data">
-                        <span ng-class="{ selected: item.id === $parent.selected }" ng-click="select(item)">{{item.label}}</span>
+                <div id="vue" class="row">
+                    <div class="col-md-5 text-right time" id="run-vue" v-on:click="run">Run</div>
+                    <div class="col-md-12 test-data" v-for="item in data">
+                        <span>{{ item.label }}</span>
                     </div>
                 </div>
             </div>

@@ -18,6 +18,7 @@ pub enum Msg {
 pub struct App {
     data: Option<Vec<Data>>,
     selected: Option<usize>,
+    time_start: f64,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -31,6 +32,7 @@ impl Default for App {
         Self {
             data: None,
             selected: None,
+            time_start: 0.0,
         }
     }
 }
@@ -140,6 +142,7 @@ impl Component<Msg> for App {
                 log::debug!("Start running..");
                 self.selected = None;
                 self.data = Some(data);
+                self.time_start = sauron::now();
                 Cmd::measure()
             }
             Msg::Selected(id) => {
@@ -150,6 +153,8 @@ impl Component<Msg> for App {
     }
 
     fn measurements(&mut self, measurements: Measurements) -> Cmd<Self, Msg> {
+        let time_spent = sauron::now() - self.time_start;
+        log::info!("total time spent: {}ms", time_spent.round());
         log::info!("Measurements here: {:#?}", measurements);
         let mut cmd = Cmd::new(move |program| {
             let run_node = sauron::document()
