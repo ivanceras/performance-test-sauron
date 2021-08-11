@@ -172,10 +172,10 @@ extern "C" {
     fn build_data() -> String;
 }
 
-/// The serialized_state is supplied by the generated page from the webserver.
-/// The generated page in index function has a main function which is supplied by a json text
-/// serialized state. This json text is deserialized and used here as our `App` value which
-/// will then be injected into the view
+#[cfg(feature = "wee_alloc")]
+#[global_allocator]
+static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+
 #[wasm_bindgen(start)]
 pub fn main() {
     console_log::init_with_level(log::Level::Trace).unwrap();
