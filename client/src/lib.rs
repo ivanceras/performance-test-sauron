@@ -110,7 +110,7 @@ impl Component<Msg> for App {
                 .expect("node must exist");
 
             let closure: Closure<dyn Fn()> = Closure::wrap(Box::new(move || {
-                let json_data = get_build_data();
+                let json_data = build_data();
                 log::debug!("got new data: {}", json_data);
                 let data: Vec<Data> =
                     serde_json::from_str::<Vec<Data>>(&json_data).expect("must unserialize data");
@@ -164,7 +164,7 @@ impl Component<Msg> for App {
 
 #[wasm_bindgen(module = "/build_data.js")]
 extern "C" {
-    fn get_build_data() -> String;
+    fn build_data() -> String;
 }
 
 /// The serialized_state is supplied by the generated page from the webserver.

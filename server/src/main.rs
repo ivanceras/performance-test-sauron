@@ -5,11 +5,10 @@ use std::collections::HashMap;
 use std::net::SocketAddr;
 use warp::{http::Response, Filter};
 
-mod page;
-
 // path relative to the working directory when you run the server binary
 const PKG_DIR: &str = "client/pkg";
 const FAVICON_FILE: &str = "client/favicon.ico";
+const INDEX_PAGE: &str = include_str!("../../client/index.html");
 const DEFAULT_PORT: u16 = 3030;
 
 #[tokio::main]
@@ -19,10 +18,7 @@ async fn main() {
 
     let favicon = warp::path("favicon.ico").and(warp::fs::file(FAVICON_FILE));
 
-    let render_page = || {
-        let rendered_index_page = page::index().render_to_string();
-        Response::builder().body(rendered_index_page)
-    };
+    let render_page = || Response::builder().body(INDEX_PAGE);
 
     // Render paths that don't include a name with a default
     let root = warp::path::end().map(move || render_page());
