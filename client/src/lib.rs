@@ -1,11 +1,7 @@
+#![deny(warnings)]
 use sauron::dom::Measurements;
-use sauron::js_sys::TypeError;
 use sauron::prelude::*;
-use sauron::web_sys::Response;
 use serde::{Deserialize, Serialize};
-
-#[macro_use]
-extern crate log;
 
 #[derive(Debug)]
 pub enum Msg {
@@ -68,6 +64,7 @@ impl App {
         }
     }
 
+    #[allow(unused)]
     fn view_using_fn_calls(&self, data: &[Data]) -> Node<Msg> {
         div(
             vec![],
@@ -113,7 +110,6 @@ impl Component<Msg> for App {
 
             let closure: Closure<dyn Fn()> = Closure::wrap(Box::new(move || {
                 let json_data = build_data();
-                log::debug!("got new data: {}", json_data);
                 let data: Vec<Data> =
                     serde_json::from_str::<Vec<Data>>(&json_data).expect("must unserialize data");
 
@@ -152,18 +148,15 @@ impl Component<Msg> for App {
         }
     }
 
-    fn measurements(&mut self, measurements: Measurements) -> Cmd<Self, Msg> {
+    fn measurements(&self, measurements: Measurements) -> Cmd<Self, Msg> {
         let time_spent = sauron::now() - self.time_start;
         log::info!("total time spent: {}ms", time_spent.round());
         log::info!("Measurements here: {:#?}", measurements);
-        let mut cmd = Cmd::new(move |program| {
-            let run_node = sauron::document()
-                .get_element_by_id("run-sauron")
-                .expect("node must exist");
-            run_node.set_text_content(Some(&format!("{} ms", measurements.total_time.round())));
-        });
-        cmd.should_update_view = false;
-        cmd
+        let run_node = sauron::document()
+            .get_element_by_id("run-sauron")
+            .expect("node must exist");
+        run_node.set_text_content(Some(&format!("{} ms", measurements.total_time.round())));
+        Cmd::no_render()
     }
 }
 

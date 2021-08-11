@@ -1,3 +1,4 @@
+#![deny(warnings)]
 use std::net::SocketAddr;
 use warp::{http::Response, Filter};
 
