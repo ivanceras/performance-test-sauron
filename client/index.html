@@ -120,24 +120,19 @@
                 methods: {
                     run: function(event){
                         this.do_measure = true;
-                        console.log("run is clicked..");
                         this.data = _buildData();
                         this.time_started = performance.now() ;
                     },
                     select: function(data_id){
                         this.do_measure = false;
-                        console.log("selected ", data_id);
                         this.selected = data_id;
                     }
                 },
                 updated: function(){
                      this.$nextTick(function () {
                         if (this.do_measure){
-                            console.log("vue dom has been updated..");
                             let update_took = Math.round(performance.now() - this.time_started );
-                            console.log("took: {}", update_took);
                             var runVue = document.getElementById("run-vue");
-                            console.log("run vue: {}", runVue);
                             runVue.innerHTML = update_took + " ms";
                         }
                     })
