@@ -178,5 +178,5 @@ pub fn main() {
         .get_element_by_id("sauron")
         .expect("node must exist");
 
-    Program::new_append_to_mount(App::default(), &container);
+    Program::append_to_mount(App::default(), &container);
 }

@@ -9,3 +9,5 @@ cd client && wasm-pack build --release --target web && cd ..
 
 cargo run --release --bin server
 ```
+
+[**demo**](https://ivanceras.github.io/performance-test-sauron)
