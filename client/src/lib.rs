@@ -34,7 +34,8 @@ impl Default for App {
 }
 
 impl App {
-    fn view_using_macro(&self, data: &[Data]) -> Node<Msg> {
+    #[cfg(not(feature = "alt-syntax"))]
+    fn view_data(&self, data: &[Data]) -> Node<Msg> {
         node! {
             <div>
                 {for d in data{
@@ -64,8 +65,8 @@ impl App {
         }
     }
 
-    #[allow(unused)]
-    fn view_using_fn_calls(&self, data: &[Data]) -> Node<Msg> {
+    #[cfg(feature = "alt-syntax")]
+    fn view_data(&self, data: &[Data]) -> Node<Msg> {
         div(
             vec![],
             vec![div(
@@ -125,8 +126,7 @@ impl Component<Msg> for App {
 
     fn view(&self) -> Node<Msg> {
         if let Some(data) = &self.data {
-            self.view_using_macro(data)
-            //self.view_using_fn_calls(data)
+            self.view_data(data)
         } else {
             node! { <span></span> }
         }
