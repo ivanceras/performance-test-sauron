@@ -1,3 +1,5 @@
+set -e
+
 ./build.sh
 
-cargo run --release --bin server
+cargo run --release --bin server $a
