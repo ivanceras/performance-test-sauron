@@ -100,7 +100,7 @@ impl App {
     }
 }
 
-impl Component<Msg> for App {
+impl Application<Msg> for App {
     fn init(&self) -> Cmd<Self, Msg> {
         use sauron::wasm_bindgen::JsCast;
 
