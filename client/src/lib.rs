@@ -143,7 +143,7 @@ impl Component<Msg> for App {
             }
             Msg::Selected(id) => {
                 self.selected = Some(id);
-                Cmd::none()
+                Cmd::measure()
             }
         }
     }

@@ -4,3 +4,6 @@ members = [
     "server",
     "client"
 ]
+
+[patch.crates-io]
+sauron = { git = "https://github.com/ivanceras/sauron.git", branch = "develop" }
