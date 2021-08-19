@@ -9,8 +9,7 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 wasm-bindgen = "0.2.29"
-#sauron = "0.40"
-sauron = { version = "0.40", path = "../../sauron" }
+sauron = "0.40"
 console_error_panic_hook = { version = "0.1"}
 log = "0.4"
 console_log = {version ="0.2", features = ["color"]}
