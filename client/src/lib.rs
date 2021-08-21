@@ -101,7 +101,7 @@ impl App {
 }
 
 impl Application<Msg> for App {
-    fn init(&self) -> Cmd<Self, Msg> {
+    fn init(&mut self) -> Cmd<Self, Msg> {
         use sauron::wasm_bindgen::JsCast;
 
         Cmd::new(|program| {
@@ -143,7 +143,7 @@ impl Application<Msg> for App {
             }
             Msg::Selected(id) => {
                 self.selected = Some(id);
-                Cmd::measure()
+                Cmd::none()
             }
         }
     }
