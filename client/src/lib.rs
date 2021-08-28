@@ -139,11 +139,11 @@ impl Application<Msg> for App {
                 self.selected = None;
                 self.data = Some(data);
                 self.time_start = sauron::now();
-                Cmd::measure()
+                Cmd::none().measure_with_name("run")
             }
             Msg::Selected(id) => {
                 self.selected = Some(id);
-                Cmd::none()
+                Cmd::none().measure_with_name("selected")
             }
         }
     }
@@ -156,7 +156,7 @@ impl Application<Msg> for App {
             .get_element_by_id("run-sauron")
             .expect("node must exist");
         run_node.set_text_content(Some(&format!("{} ms", measurements.total_time.round())));
-        Cmd::no_render()
+        Cmd::none().no_render()
     }
 }
 
