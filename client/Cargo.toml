@@ -10,6 +10,7 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 wasm-bindgen = "0.2.29"
 #sauron = "0.43"
+#sauron = { path = "../../sauron", features = ["with-measure", "with-debug"] }
 sauron = { path = "../../sauron", features = ["with-measure"] }
 console_error_panic_hook = { version = "0.1"}
 log = "0.4"
@@ -21,12 +22,3 @@ wee_alloc = { version = "0.4", optional = true }
 [features]
 alt-syntax = []
 
-
-[profile.release]
-# https://doc.rust-lang.org/cargo/reference/profiles.html
-# optimize for binary size
-#opt-level = "s"
-# optimize for binary size, but also turn off loop vectorization.
-opt-level = "z"
-lto = true
-panic = "abort"
