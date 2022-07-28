@@ -37,7 +37,7 @@ impl App {
     #[cfg(not(feature = "alt-syntax"))]
     fn view_data(&self, data: &[Data]) -> Node<Msg> {
         node! {
-            <div>
+            <div class="data">
                 {for d in data{
                     let id = d.id;
                     let label = d.label.to_string();
@@ -68,33 +68,31 @@ impl App {
     #[cfg(feature = "alt-syntax")]
     fn view_data(&self, data: &[Data]) -> Node<Msg> {
         div(
-            vec![],
-            vec![div(
-                vec![class("row")],
-                data.iter()
-                    .map(|d| {
-                        let id = d.id;
-                        let label = d.label.to_string();
-                        div(
-                            vec![class("col-md-12 test-data")],
-                            vec![span(
-                                vec![
-                                    class(if let Some(selected) = self.selected {
-                                        if selected == id {
-                                            "selected"
-                                        } else {
-                                            ""
-                                        }
+            [class("data")],
+            [div(
+                [class("row")],
+                data.iter().map(|d| {
+                    let id = d.id;
+                    let label = d.label.to_string();
+                    div(
+                        [class("col-md-12 test-data")],
+                        [span(
+                            [
+                                class(if let Some(selected) = self.selected {
+                                    if selected == id {
+                                        "selected"
                                     } else {
                                         ""
-                                    }),
-                                    on_click(move |_e| Msg::Selected(id)),
-                                ],
-                                vec![text(label)],
-                            )],
-                        )
-                    })
-                    .collect::<Vec<_>>(),
+                                    }
+                                } else {
+                                    ""
+                                }),
+                                on_click(move |_e| Msg::Selected(id)),
+                            ],
+                            [text(label)],
+                        )],
+                    )
+                }),
             )],
         )
     }
