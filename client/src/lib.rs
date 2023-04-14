@@ -100,8 +100,6 @@ impl App {
 
 impl Application<Msg> for App {
     fn init(&mut self) -> Cmd<Self, Msg> {
-        use sauron::wasm_bindgen::JsCast;
-
         Cmd::new(|program| {
             let run_node = sauron::document()
                 .get_element_by_id("run-sauron")
@@ -156,16 +154,16 @@ impl Application<Msg> for App {
         run_node.set_text_content(Some(&format!("{} ms", measurements.total_time.round())));
         Cmd::none().no_render()
     }
+
+    fn style(&self) -> String {
+        String::new()
+    }
 }
 
 #[wasm_bindgen(module = "/build_data.js")]
 extern "C" {
     fn build_data() -> String;
 }
-
-#[cfg(feature = "wee_alloc")]
-#[global_allocator]
-static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen(start)]
 pub fn main() {
