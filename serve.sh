@@ -1,4 +1,4 @@
-set -e
+set -ev
 
 ./build.sh
 

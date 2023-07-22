@@ -6,7 +6,7 @@ use warp::{http::Response, Filter};
 const PKG_DIR: &str = "client/pkg";
 const FAVICON_FILE: &str = "client/favicon.ico";
 const INDEX_PAGE: &str = include_str!("../../client/index.html");
-const DEFAULT_PORT: u16 = 3030;
+const DEFAULT_PORT: u16 = 2337;
 
 #[tokio::main]
 async fn main() {

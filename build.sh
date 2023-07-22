@@ -1,4 +1,4 @@
-set -v
+set -ev
 
 echo $@
 

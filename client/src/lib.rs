@@ -1,6 +1,4 @@
-#![deny(warnings)]
-use sauron::dom::Measurements;
-use sauron::prelude::*;
+use sauron::*;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug)]
@@ -99,8 +97,8 @@ impl App {
 }
 
 impl Application<Msg> for App {
-    fn init(&mut self) -> Cmd<Self, Msg> {
-        Cmd::new(|program| {
+    fn init(&mut self) -> Vec<Cmd<Self, Msg>> {
+        vec![Cmd::new(|program| {
             let run_node = sauron::document()
                 .get_element_by_id("run-sauron")
                 .expect("node must exist");
@@ -117,7 +115,7 @@ impl Application<Msg> for App {
                 .add_event_listener_with_callback("click", closure.as_ref().unchecked_ref())
                 .expect("Must register event listener");
             closure.forget();
-        })
+        })]
     }
 
     fn view(&self) -> Node<Msg> {
@@ -155,8 +153,8 @@ impl Application<Msg> for App {
         Cmd::none().no_render()
     }
 
-    fn style(&self) -> String {
-        String::new()
+    fn stylesheet() -> Vec<String> {
+        vec![]
     }
 }
 
